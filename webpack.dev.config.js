@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const nodeExternals = require('webpack-node-externals');
+
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -9,10 +11,11 @@ const path = require('path');
 const webpack = require('webpack');
 
 const host = process.env.HOST || 'localhost';
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 9090;
 
 module.exports = {
-  mode: 'development',
+  target: 'web',
+  externals: [nodeExternals()], // Need this to avoid error when working with Express
   devtool: 'inline-source-map',
   entry: [
     './src/scripts/index.js',
@@ -125,7 +128,8 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      filename: './index.html'
+      filename: './index.html',
+      excludeChunks: [ 'server' ]
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
