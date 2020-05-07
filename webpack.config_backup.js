@@ -18,26 +18,7 @@ module.exports = {
     'font-awesome/scss/font-awesome.scss',
     'bootstrap/dist/css/bootstrap.min.css',
 
-    './src/scripts/index.js',
-    
-    'flickity/dist/flickity.pkgd.min.js',
-    'flickity/dist/flickity.min.css',
-
-    '@fancyapps/fancybox/dist/jquery.fancybox.min.js',
-    '@fancyapps/fancybox/dist/jquery.fancybox.min.css',
-
-    './src/scripts/theme.min.js',
-    './src/styles/theme.min.css',
-
-    'aos/dist/aos.js',
-    'aos/dist/aos.css',
-
-    'smooth-scroll/dist/smooth-scroll.min.js',
-    'countup/dist/countUp.min.js',
-
-    'mapbox-gl/dist/mapbox-gl.js',
-    'mapbox-gl/dist/mapbox-gl.css'
-
+    './src/scripts/index.js'
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),

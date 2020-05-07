@@ -4,19 +4,17 @@ import 'bootstrap';
 
 import 'flickity';
 import 'flickity-fade';
-import 'aos';
+import  AOS from 'aos';
 import 'smooth-scroll';
 import 'jarallax';
-import 'countup';
+import 'countup.js';
 import '@fancyapps/fancybox';
 import 'isotope-layout';
-
-import '../scripts/highlightjs/highlight.pack.min.js';
-import '../scripts/imagesloaded/imagesloaded.pkgd.min.js';
-import '../scripts/typed.js/lib/typed.min.js';
+import 'highlightjs';
+import 'imagesloaded';
+import 'typed.js';
 
 //Mapbox
 import 'mapbox-gl';
 
-//Theme JS
-import '../scripts/theme.min.js';
+AOS.init();

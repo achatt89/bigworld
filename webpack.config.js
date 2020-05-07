@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
-const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -12,6 +12,8 @@ const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8080;
 
 module.exports = {
+  mode: 'development',
+  devtool: 'inline-source-map',
   entry: [
     './src/scripts/index.js',
   ],
@@ -26,7 +28,7 @@ module.exports = {
     port: port, // Port Number
     host: host, // Change to '0.0.0.0' for external facing server
     historyApiFallback: true,
-    open:true
+    open: true
   },
   module: {
     rules: [{
@@ -40,7 +42,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          cacheDirectory: true,
+          cacheDirectory: false
         },
       },
 
@@ -50,26 +52,32 @@ module.exports = {
         use: [{
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: './dist/styles/',
+              sourceMap: true,
+              url:true
             },
           },
           'css-loader',
         ],
       },
       {
-        test: /\.(woff2|woff)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader?limit=10000',
-      },
-      {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        use: 'file-loader',
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(woff|woff2|ttf|eot)$/i,
         use: [
-          'file-loader?name=images/[name].[hash].[ext]',
-          'image-webpack-loader?bypassOnDebug'
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              mimetype: 'application/font-woff',
+              outputPath: 'fonts/'
+            }
+          }
         ]
+      },
+      {
+        test: /\.(jpeg|jpg|png|gif|svg)$/i,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'images/'
+        }
       },
 
       // font-awesome
@@ -115,14 +123,15 @@ module.exports = {
     }),
 
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: './index.html'
     }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new ManifestPlugin()
   ]
 
 }
